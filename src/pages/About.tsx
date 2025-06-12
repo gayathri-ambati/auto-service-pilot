@@ -88,6 +88,28 @@ const About = () => {
         </div>
       </section>
 
+           <section className="bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 text-white py-20">
+  <div className="container mx-auto px-4 text-center">
+    <div className="mb-6 flex justify-center">
+      <div className="bg-white/10 rounded-full p-4">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10m-9 4h8m-9 4h6m2 0a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h10z" />
+        </svg>
+      </div>
+    </div>
+    <h2 className="text-3xl font-bold mb-4">Download Our App</h2>
+    <p className="text-lg text-gray-300 mb-8">Get the Yasla mobile app for the best booking experience on the go.</p>
+    <div className="flex justify-center gap-4">
+      <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded hover:bg-gray-200 transition">
+        Download for iOS
+      </button>
+      <button className="bg-white text-gray-900 font-semibold px-6 py-3 rounded hover:bg-gray-200 transition">
+        Download for Android
+      </button>
+    </div>
+  </div>
+</section>
+
 {/* <section className="py-20 bg-blue-50">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
