@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CheckCircle, Target, Heart, Zap, Eye } from "lucide-react";
 import mission from "../assets/man-touching-mission.avif";
 import vision from "../assets/vision-direction-future.avif";
+import VideoUploadSection from "@/components/VideoUploadSection";
+import ImageUploadSection from "@/components/ImageUploadSection";
 const About = () => {
   const values = [
     {
@@ -241,6 +243,8 @@ const About = () => {
   </div>
 </section> */}
 
+<VideoUploadSection />
+<ImageUploadSection />
 
       {/* Our Values */}
       <section className="py-20 bg-gray-50">

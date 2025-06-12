@@ -156,17 +156,16 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <Link to="/" className="flex items-center space-x-3 group">
-  <img
-    src={logo}
-    alt="Logo"
-    className="h-16 w-auto rounded-lg shadow-md transition-transform group-hover:scale-105"
-  />
-  <div className="leading-tight">
-    <span className="text-lg font-bold">Mechanic since 1999</span>
-    <p className="text-xs text-gray-400">Vehicle Service Management</p>
-  </div>
-</Link>
-
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-16 w-auto rounded-lg shadow-md transition-transform group-hover:scale-105"
+            />
+            <div className="leading-tight">
+              <span className="text-lg font-bold">Mechanic since 1999</span>
+              <p className="text-xs text-gray-400">Vehicle Service Management</p>
+            </div>
+          </Link>
 
           <nav className="hidden md:flex space-x-8">
             {navigation.map((item) => (
@@ -187,12 +186,19 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex">
+          <div className="hidden md:flex space-x-4">
             <Link to="/contact#contact-form">
               <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
                 Get Started Today
               </button>
             </Link>
+            <a
+              href="/downloads/app.apk"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+              download
+            >
+              Download App
+            </a>
           </div>
 
           <div className="md:hidden">
@@ -224,6 +230,13 @@ const Header = () => {
                   Get Started Today
                 </button>
               </Link>
+              <a
+                href="/downloads/app.apk"
+                className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md text-center"
+                download
+              >
+                Download App
+              </a>
             </nav>
           </div>
         )}
@@ -233,3 +246,4 @@ const Header = () => {
 };
 
 export default Header;
+
