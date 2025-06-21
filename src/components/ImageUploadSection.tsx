@@ -30,7 +30,7 @@ const ImageUploadSection: React.FC = () => {
               onChange={handleImageUpload}
               className="hidden"
             />
-            <span className="inline-flex items-center gap-2 px-6 py-2 bg-green-600 group-hover:bg-green-700 text-white text-base font-medium rounded-md shadow-md transition">
+            {/* <span className="inline-flex items-center gap-2 px-6 py-2 bg-green-600 group-hover:bg-green-700 text-white text-base font-medium rounded-md shadow-md transition">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -45,7 +45,7 @@ const ImageUploadSection: React.FC = () => {
                 />
               </svg>
               Upload Image
-            </span>
+            </span> */}
           </label>
         </div>
 

@@ -41,7 +41,7 @@ const VideoUploadSection: React.FC = () => {
               onChange={handleVideoUpload}
               className="hidden"
             />
-            <span className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 group-hover:bg-blue-700 text-white text-base font-medium rounded-md shadow-md transition">
+            {/* <span className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 group-hover:bg-blue-700 text-white text-base font-medium rounded-md shadow-md transition">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -56,7 +56,7 @@ const VideoUploadSection: React.FC = () => {
                 />
               </svg>
               Upload Another Video
-            </span>
+            </span> */}
           </label>
         </div>
       </div>
