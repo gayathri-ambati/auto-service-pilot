@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
+import WhatApp from "@/components/WhatApp";
 
 
 
@@ -93,6 +94,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <WhatApp />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

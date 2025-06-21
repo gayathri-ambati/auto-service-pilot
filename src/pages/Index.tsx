@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, CheckCircle, Wrench, FileText, CreditCard, Users, Clock, Shield, Star } from "lucide-react";
+import WhatApp from "@/components/WhatApp";
 
 const Index = () => {
   const features = [
@@ -39,6 +40,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <WhatApp />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -5,6 +5,7 @@ import mission from "../assets/man-touching-mission.avif";
 import vision from "../assets/vision-direction-future.avif";
 import VideoUploadSection from "@/components/VideoUploadSection";
 import ImageUploadSection from "@/components/ImageUploadSection";
+import WhatApp from "@/components/WhatApp";
 const About = () => {
   const values = [
     {
@@ -37,6 +38,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <WhatApp />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import WhatApp from "@/components/WhatApp";
 import { Shield, Eye, Lock, Users, Database, Settings } from "lucide-react";
 
 const Privacy = () => {
@@ -49,6 +50,7 @@ const Privacy = () => {
 
   return (
     <div className="min-h-screen">
+      <WhatApp />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
