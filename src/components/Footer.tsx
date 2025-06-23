@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Wrench, Phone, Mail, MapPin, Clock, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import logo from "../assets/vsms.jpg"
@@ -17,11 +16,13 @@ const Footer = () => {
       alt="Mechanicsince1999 Logo"
       className="h-20 w-auto rounded-lg shadow" // slightly increased from h-10
     />
-    <div>
+    <div className="flex-1"> {/* This makes the div expand */}
       <span className="text-lg font-bold">Mechanic since 1999</span>
-      <p className="text-xs text-gray-400">Vehicle Service Management</p>
+      <p className="text-xs bg-green-400 text-white italic">Purchase by EMI, Maintenance by EMI</p>
     </div>
   </Link>
+
+
 
 
 
@@ -96,22 +97,23 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-400 text-sm">+1 (555) 123-4567</span>
+                <span className="text-gray-400 text-sm">7709697786</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-400 text-sm">info@mechanicsince1999.com</span>
+                <span className="text-gray-400 text-sm">vijay@mechanicsince1999.com</span>
               </div>
               <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-blue-400 mt-1" />
+                <MapPin className="h-7 w-7 text-blue-400 mt-1" />
                 <span className="text-gray-400 text-sm">
-                  123 Service Street<br />
-                  Auto City, AC 12345
+                38/52 N.C.C. Malwani, Malad Gate No.6, Malad West, Malad, Mumbai,<br />
+                  PO: Kharodi, DIST: Mumbai,<br />
+                  Maharashtra - 400095
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-400 text-sm">Mon-Fri: 9AM-6PM</span>
+                <span className="text-gray-400 text-sm">24*7 / 365 days</span>
               </div>
             </div>
           </div>
@@ -121,7 +123,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {currentYear} Mechanicsince1999. All rights reserved.
+              © {currentYear} Mechanicsince1999. All rights reserved to iiiQBets.
             </p>
             <div className="flex space-x-6">
               <Link to="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
@@ -138,4 +140,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer;

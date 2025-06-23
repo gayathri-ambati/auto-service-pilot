@@ -163,7 +163,7 @@ const Header = () => {
             />
             <div className="leading-tight">
               <span className="text-lg font-bold">Mechanic since 1999</span>
-              <p className="text-xs text-gray-400">Vehicle Service Management</p>
+              <p className="text-xs bg-green-200 text-black-400 italic">Purchase by EMI, Maintanance by EMI</p>
             </div>
           </Link>
 

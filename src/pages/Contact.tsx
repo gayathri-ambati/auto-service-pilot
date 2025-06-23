@@ -48,32 +48,33 @@ const Contact = () => {
   //   });
   // };
 
-  const contactInfo = [
+ const contactInfo = [
     {
       icon: <Phone className="h-6 w-6 text-blue-600" />,
       title: "Phone",
-      content: "+1 (555) 123-4567",
+      content: "‪+91 7709697786‬",
       description: "Call us for immediate assistance"
     },
     {
       icon: <Mail className="h-6 w-6 text-blue-600" />,
       title: "Email",
-      content: "info@mechanicsince1999.com",
+      content: "vijay@mechanicsince1999.com",
       description: "Send us your questions"
     },
     {
       icon: <MapPin className="h-6 w-6 text-blue-600" />,
       title: "Address",
-      content: "123 Service Street, Auto City, AC 12345",
+      content: "38/52 N.C.C. Malwani, Malad Gate No.6, Malad West, Malad, Mumbai, PO: Kharodi, DIST: Mumbai, Maharashtra - 400095",
       description: "Visit our service center"
     },
     {
       icon: <Clock className="h-6 w-6 text-blue-600" />,
       title: "Business Hours",
-      content: "Monday to Friday, 9 AM - 6 PM",
+      content: "24*7 / 365 days",
       description: "We're here when you need us"
     }
   ];
+
 
     const location = useLocation();
 
@@ -96,7 +97,7 @@ const Contact = () => {
     <div className="min-h-screen">
       <WhatApp />
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
+       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
             Get in Touch with <span className="text-orange-400">Us</span>
@@ -107,8 +108,9 @@ const Contact = () => {
         </div>
       </section>
 
+
       {/* Contact Info Cards */}
-      <section className="py-20 bg-gray-50">
+         <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {contactInfo.map((info, index) => (
@@ -130,6 +132,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
 
       {/* Contact Form and Map */}
       <section className="py-20 bg-white">
@@ -216,6 +219,7 @@ const Contact = () => {
             </div>
 
             {/* Map and Additional Info */}
+               {/* Map and Additional Info */}
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Visit Our Location
@@ -223,22 +227,24 @@ const Contact = () => {
               <p className="text-lg text-gray-600 mb-8">
                 Stop by our service center for in-person consultations and immediate assistance.
               </p>
+
               
               {/* Map Placeholder */}
-              <Card className="mb-8">
+                <Card className="mb-8">
                 <CardContent className="p-0">
                   <div className="w-full h-64 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
                     <div className="text-center">
                       <MapPin className="h-12 w-12 text-blue-600 mx-auto mb-4" />
                       <p className="text-gray-600">Interactive Map</p>
-                      <p className="text-sm text-gray-500">123 Service Street, Auto City, AC 12345</p>
+                      <p className="text-sm text-gray-500">38/52 N.C.C. Malwani, Malad Gate No.6, Malad West, Malad, Mumbai, PO: Kharodi, DIST: Mumbai, Maharashtra - 400095</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
+
               {/* Business Hours */}
-              <Card>
+             <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Clock className="h-5 w-5 text-blue-600" />
@@ -248,27 +254,28 @@ const Contact = () => {
                 <CardContent>
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span>Monday - Friday</span>
-                      <span className="font-semibold">9:00 AM - 6:00 PM</span>
+                      {/* <span>24*7 / 365 days</span> */}
+                      <span className="font-semibold">24*7 / 365 days</span>
                     </div>
                     <div className="flex justify-between text-gray-600">
-                      <span>Saturday</span>
-                      <span>9:00 AM - 4:00 PM</span>
+                      <span>We're here when you need us</span>
+                      {/* <span>9:00 AM - 4:00 PM</span> */}
                     </div>
-                    <div className="flex justify-between text-gray-600">
+                    {/* <div className="flex justify-between text-gray-600">
                       <span>Sunday</span>
                       <span>Closed</span>
-                    </div>
+                    </div> */}
                   </div>
                 </CardContent>
               </Card>
+
             </div>
           </div>
         </div>
       </section>
 
       {/* Emergency Contact */}
-      <section className="py-20 bg-gradient-to-r from-blue-500 to-blue-500 text-white">
+       <section className="py-20 bg-gradient-to-r from-blue-500 to-blue-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Emergency Vehicle Service
@@ -278,10 +285,11 @@ const Contact = () => {
           </p>
           <Button size="lg" className="bg-white text-red-600 hover:bg-green-100 px-8 py-3">
             <Phone className="mr-2 h-5 w-5" />
-            Call Emergency Line: +1 (555) 911-AUTO
+            Call Emergency Line: +91 7709697786
           </Button>
         </div>
       </section>
+
     </div>
   );
 };

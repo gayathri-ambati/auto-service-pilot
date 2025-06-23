@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import image from "../assets/vsms.jpg";
-import { Truck } from "lucide-react";
+import { Bolt, Truck } from "lucide-react";
 import { 
   Wrench, 
   Shield, 
@@ -32,10 +32,10 @@ const Services = () => {
     },
     {
       icon: <Shield className="h-12 w-12 text-red-500" />,
-      title: "Insurance and Repair Services",
-      description: "Comprehensive repair solutions for all vehicle types",
+      title: "Insurance and Renewal Services",
+      description: "Comprehensive Renewal solutions for all vehicle types",
       services: [
-        "Collision and Accident Repairs: Fix any damage quickly and efficiently",
+        "Collision and Accident-Towing facility: Fix any damage quickly and efficiently",
         "Parts Replacement: Get genuine spare parts for engine, brakes, suspension",
         "General Repairs: From electrical systems to engine issues"
       ]
@@ -84,11 +84,11 @@ const Services = () => {
 
   ];
 
-  const specialtyServices = [
-    { icon: <Car className="h-8 w-8" />, name: "Engine Diagnostics", desc: "Advanced computer diagnostics" },
-    { icon: <Disc className="h-8 w-8" />, name: "Brake Systems", desc: "Complete brake service and repair" },
-    { icon: <Battery className="h-8 w-8" />, name: "Electrical Systems", desc: "Battery, alternator, and wiring" },
-    { icon: <Cog className="h-8 w-8" />, name: "Transmission", desc: "Automatic and manual transmission service" },
+ const specialtyServices = [
+    { icon: <Car className="h-8 w-8" />, name: "Sales", desc: "Selling the vehicles" },
+    { icon: <Disc className="h-8 w-8" />, name: "Spares", desc: "Selling vehicles spare parts" },
+    { icon: <Bolt className="h-8 w-8" />, name: "Service", desc: "Servicing the vehicles" },
+    // { icon: <Cog className="h-8 w-8" />, name: "Transmission", desc: "Automatic and manual transmission service" },
   ];
 
   return (
@@ -145,6 +145,7 @@ const Services = () => {
       </section>
 
       {/* Specialty Services */}
+    {/* Specialty Services */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -173,8 +174,7 @@ const Services = () => {
             ))}
           </div>
         </div>
-      </section>
-
+      </section>
       {/* Service Process */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
