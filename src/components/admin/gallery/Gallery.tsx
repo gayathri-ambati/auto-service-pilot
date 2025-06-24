@@ -34,7 +34,7 @@ const Gallery: React.FC = () => {
     const maxSize = uploadType === "image" ? 2 * 1024 * 1024 : 10 * 1024 * 1024;
     if (file.size > maxSize) {
       const typeText = uploadType === "image" ? "2MB" : "10MB";
-      setError(`❌ File must be less than ${typeText}`);
+      setError(`File must be less than ${typeText}`);
       e.target.value = "";
     } else {
       setError("");
@@ -70,32 +70,51 @@ const Gallery: React.FC = () => {
       setSuccess(`${uploadType === "image" ? "Image" : "Video"} uploaded successfully!`);
       setFormData({ name: "", description: "", file: null });
     } catch (err: any) {
-      setError(`❌ ${err.message}`);
+      setError(err.message);
     }
   };
 
   return (
-    <div className="pt-16">
+    <div style={{ marginTop: "60px" }}>
       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div className={`transition-all duration-300 px-4 md:px-10 ${sidebarCollapsed ? "ml-24" : "ml-56"}`}>
-        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
-          <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
-            🎨 Gallery Upload
-          </h2>
+      <div
+        className="transition-all duration-300"
+        style={{
+          marginLeft: sidebarCollapsed ? "100px" : "220px",
+          padding: "2rem",
+        }}
+      >
+        <div className="bg-white rounded-lg shadow-lg p-6 max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              🎨 Gallery Upload
+            </h1>
+            <p className="text-lg text-gray-600">
+              Upload new content to your gallery
+            </p>
+          </div>
 
-          {error && <div className="bg-red-100 text-red-700 p-3 mb-4 rounded text-center">{error}</div>}
-          {success && <div className="bg-green-100 text-green-700 p-3 mb-4 rounded text-center">{success}</div>}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-3 rounded-md mb-6 text-center">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="bg-green-100 text-green-700 p-3 rounded-md mb-6 text-center">
+              {success}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="font-semibold block mb-2">
-                📁 Select Upload Type
-              </label>
-              <div className="flex gap-6">
+            <div className="border-b border-gray-200 pb-6">
+              <h2 className="text-xl font-semibold text-blue-600 mb-4">
+                📁 Upload Type
+              </h2>
+              <div className="flex flex-wrap gap-4">
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    className="form-radio"
+                    className="form-radio h-4 w-4 text-blue-600"
                     value="image"
                     checked={uploadType === "image"}
                     onChange={() => setUploadType("image")}
@@ -105,7 +124,7 @@ const Gallery: React.FC = () => {
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    className="form-radio"
+                    className="form-radio h-4 w-4 text-blue-600"
                     value="video"
                     checked={uploadType === "video"}
                     onChange={() => setUploadType("video")}
@@ -117,7 +136,7 @@ const Gallery: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block font-semibold mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   🖼️ {uploadType === "image" ? "Image Name" : "Video Name"}
                 </label>
                 <input
@@ -125,14 +144,13 @@ const Gallery: React.FC = () => {
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  placeholder={`Enter ${uploadType} name`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="block font-semibold mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   📄 Upload {uploadType === "image" ? "Image" : "Video"}
                 </label>
                 <input
@@ -140,18 +158,14 @@ const Gallery: React.FC = () => {
                   type="file"
                   accept={uploadType === "image" ? "image/*" : "video/*"}
                   onChange={handleFileChange}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                             file:rounded-full file:border-0
-                             file:text-sm file:font-semibold
-                             file:bg-blue-50 file:text-blue-700
-                             hover:file:bg-blue-100"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-semibold mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 📝 Description
               </label>
               <textarea
@@ -159,15 +173,14 @@ const Gallery: React.FC = () => {
                 rows={3}
                 value={formData.description}
                 onChange={handleInputChange}
-                className="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Write a description..."
-              ></textarea>
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
 
-            <div className="text-center">
+            <div className="flex justify-center pt-4">
               <button
                 type="submit"
-                className="bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-blue-700 transition transform hover:scale-105"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-medium transition-colors shadow-md"
               >
                 🚀 Upload {uploadType === "image" ? "Image" : "Video"}
               </button>
@@ -175,6 +188,21 @@ const Gallery: React.FC = () => {
           </form>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .transition-all {
+            margin-left: 0 !important;
+            padding: 1rem !important;
+          }
+          .text-3xl {
+            font-size: 1.5rem !important;
+          }
+          .text-lg {
+            font-size: 1rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
