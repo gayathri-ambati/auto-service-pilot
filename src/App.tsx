@@ -105,6 +105,7 @@ import GalleryTable from "./components/admin/gallery/GalleryTable";
 import VehicleTable from "./components/admin/vehicleDetails/VehicleTable";
 import ContactPage from "./components/admin/contact/AdminContact";
 import Contact from "./pages/Contact";
+import GalleryPage from "./pages/GalleryPage";
 
 // Create query client
 const queryClient = new QueryClient();
@@ -142,6 +143,7 @@ const AppContent = () => {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/gallery" element={<GalleryPage />} />
 
           {/* Admin Routes */}
           <Route path="/dashboard" element={<Dashboard />} />

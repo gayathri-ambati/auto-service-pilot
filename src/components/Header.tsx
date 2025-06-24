@@ -133,23 +133,32 @@
 // export default Header;
 
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import logo from '../assets/vsms.jpg';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
+    { name: 'Gallery', href: '/gallery' }, // ✅ Gallery added
     { name: 'Contact', href: '/contact' },
     { name: 'FAQ', href: '/faq' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+   const handleDropdownSelect = (path) => {
+    navigate(path);
+    setIsDropdownOpen(false);
+    setIsMenuOpen(false); // close mobile menu too
+  };
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50">
@@ -163,10 +172,11 @@ const Header = () => {
             />
             <div className="leading-tight">
               <span className="text-lg font-bold">Mechanic since 1999</span>
-              <p className="text-xs bg-green-200 text-black-400 italic">Purchase by EMI, Maintanance by EMI</p>
+              <p className="text-xs bg-green-200 text-black-400 italic">Purchase by EMI, Maintenance by EMI</p>
             </div>
           </Link>
 
+          {/* Desktop navigation */}
           <nav className="hidden md:flex space-x-8">
             {navigation.map((item) => (
               <Link
@@ -184,8 +194,27 @@ const Header = () => {
                 />
               </Link>
             ))}
+
+            {/* Vehicle Sales Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center ${location.pathname.includes('/vehiclesales') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+              >
+                Vehicle Sales <ChevronDown className="ml-1 w-4 h-4" />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute bg-white text-black mt-2 rounded shadow-lg w-48 z-50">
+                  <button onClick={() => handleDropdownSelect('/vehiclesales/below1000cc')} className="block px-4 py-2 hover:bg-gray-100 w-full text-left">Below 1000cc</button>
+                  <button onClick={() => handleDropdownSelect('/vehiclesales/below2000cc')} className="block px-4 py-2 hover:bg-gray-100 w-full text-left">Below 2000cc</button>
+                  <button onClick={() => handleDropdownSelect('/vehiclesales/above2000cc')} className="block px-4 py-2 hover:bg-gray-100 w-full text-left">Above 2000cc</button>
+                </div>
+              )}
+            </div>
           </nav>
 
+          {/* Desktop buttons */}
           <div className="hidden md:flex space-x-4">
             <Link to="/contact#contact-form">
               <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
@@ -201,6 +230,7 @@ const Header = () => {
             </a>
           </div>
 
+          {/* Mobile toggle */}
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -208,6 +238,7 @@ const Header = () => {
           </div>
         </div>
 
+        {/* Mobile navigation */}
         {isMenuOpen && (
           <div className="md:hidden pb-4">
             <nav className="flex flex-col space-y-2">

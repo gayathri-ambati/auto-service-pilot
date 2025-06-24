@@ -1,286 +1,167 @@
-import React, { useState } from 'react';
-import { Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
-
-import baseURL from '../../../BaseUrl';
-import Navbar from '../sidebar/Navbar';
+import React, { useState } from "react";
+import baseURL from "../../../BaseUrl";
+import Navbar from "../sidebar/Navbar";
 
 const VehicleDetails: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [image1, setImage1] = useState<File | null>(null);
   const [image2, setImage2] = useState<File | null>(null);
-  const [error, setError] = useState<string>('');
-  const [success, setSuccess] = useState<string>('');
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     const data = new FormData();
 
-    // Append all form fields
     for (let key in formData) {
       data.append(key, formData[key]);
     }
 
-    // Append images
-    if (image1) data.append('image1', image1);
-    if (image2) data.append('image2', image2);
+    if (image1) data.append("image1", image1);
+    if (image2) data.append("image2", image2);
 
     try {
       const response = await fetch(`${baseURL}/vehicles`, {
-        method: 'POST',
-        body: data
+        method: "POST",
+        body: data,
       });
 
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Something went wrong');
+      if (!response.ok) throw new Error(result.error || "Something went wrong");
 
-      setSuccess('✅ Vehicle added successfully!');
+      setSuccess("✅ Vehicle added successfully!");
       setFormData({});
       setImage1(null);
       setImage2(null);
-    } catch (err) {
+    } catch (err: any) {
       setError(`❌ ${err.message}`);
     }
   };
 
   return (
-    <div style={{ marginTop: '60px' }}>
-          <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
-
+    <div className="mt-[60px] min-h-screen bg-gray-100">
+      <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
       <div
-        className="vehicle-page-content"
-        style={{
-          marginLeft: sidebarCollapsed ? '100px' : '220px',
-          padding: '2rem',
-          transition: 'margin-left 0.3s ease',
-          maxWidth: '1200px'
-        }}
+        className={`transition-all duration-300 ${
+          sidebarCollapsed ? "ml-[100px]" : "ml-[220px]"
+        } px-4 py-6 max-w-[1200px]`}
       >
-        <Card className="shadow-sm">
-          <Card.Body>
-            <h2 className="text-center mb-4">🚗 Vehicle Details Form</h2>
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-2xl font-bold text-center mb-6">
+            🚗 Vehicle Details Form
+          </h2>
 
-            {error && <Alert variant="danger" className="text-center">{error}</Alert>}
-            {success && <Alert variant="success" className="text-center">{success}</Alert>}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4 text-center">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="bg-green-100 text-green-700 p-3 rounded-md mb-4 text-center">
+              {success}
+            </div>
+          )}
 
-            <Form onSubmit={handleSubmit}>
-              {/* Car Details Section */}
-              <h5 className="text-primary mb-3 mt-4">🔧 Car Details</h5>
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="make_brand">
-                    <Form.Label>Make/Brand</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="model">
-                    <Form.Label>Model</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="variant">
-                    <Form.Label>Variant</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-              </Row>
+          <form onSubmit={handleSubmit}>
+            {/* Section 1 */}
+            <h5 className="text-blue-600 font-semibold mb-4">🔧 Car Details</h5>
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              <InputField id="make_brand" label="Make/Brand" onChange={handleChange} />
+              <InputField id="model" label="Model" onChange={handleChange} />
+              <InputField id="variant" label="Variant" onChange={handleChange} />
+              <InputField id="year_of_manufacture" label="Year of Manufacture" type="number" onChange={handleChange} />
+              <InputField id="registration_number" label="Registration Number" onChange={handleChange} />
+              <SelectField id="fuel_type" label="Fuel Type" onChange={handleChange} options={["Petrol", "Diesel", "CNG", "Electric", "Hybrid"]} />
+              <SelectField id="transmission_type" label="Transmission Type" onChange={handleChange} options={["Manual", "Automatic", "CVT", "AMT"]} />
+              <InputField id="mileage" label="Mileage (km)" type="number" onChange={handleChange} />
+              <InputField id="color" label="Color" onChange={handleChange} />
+              <InputField id="engine_capacity" label="Engine Capacity (cc)" type="number" onChange={handleChange} />
+              <FileField label="Image 1" setFile={setImage1} />
+              <FileField label="Image 2" setFile={setImage2} />
+            </div>
 
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="year_of_manufacture">
-                    <Form.Label>Year of Manufacture</Form.Label>
-                    <Form.Control type="number" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="registration_number">
-                    <Form.Label>Registration Number</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="fuel_type">
-                    <Form.Label>Fuel Type</Form.Label>
-                    <Form.Select onChange={handleChange}>
-                      <option>Petrol</option>
-                      <option>Diesel</option>
-                      <option>CNG</option>
-                      <option>Electric</option>
-                      <option>Hybrid</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
+            {/* Section 2 */}
+            <h5 className="text-blue-600 font-semibold mt-6 mb-4">
+              📝 Ownership & Legal Info
+            </h5>
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
+              <InputField id="previous_owners" label="Previous Owners" type="number" onChange={handleChange} />
+              <SelectField id="rc_available" label="RC Available" onChange={handleChange} options={["Yes", "No"]} />
+              <InputField id="insurance_type" label="Insurance Type" onChange={handleChange} />
+              <InputField id="insurance_validity" label="Insurance Validity" type="date" onChange={handleChange} />
+              <InputField id="pollution_validity" label="Pollution Cert Validity" type="date" onChange={handleChange} />
+              <SelectField id="loan_clearance_cert" label="Loan Clearance Cert" onChange={handleChange} options={["Yes", "No"]} />
+              <InputField id="vin" label="VIN / Chassis Number" onChange={handleChange} />
+              <TextAreaField id="service_history" label="Service History" onChange={handleChange} />
+              <SelectField id="road_tax_paid" label="Road Tax Paid" onChange={handleChange} options={["Yes", "No"]} />
+            </div>
 
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="transmission_type">
-                    <Form.Label>Transmission Type</Form.Label>
-                    <Form.Select onChange={handleChange}>
-                      <option>Manual</option>
-                      <option>Automatic</option>
-                      <option>CVT</option>
-                      <option>AMT</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="mileage">
-                    <Form.Label>Mileage (km)</Form.Label>
-                    <Form.Control type="number" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="color">
-                    <Form.Label>Color</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="engine_capacity">
-                    <Form.Label>Engine Capacity (cc)</Form.Label>
-                    <Form.Control type="number" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="image1">
-                    <Form.Label>Image 1</Form.Label>
-                    <Form.Control 
-                      type="file" 
-                      onChange={(e) => {
-                        const target = e.target as HTMLInputElement; // Type assertion
-                        if (target.files) {
-                          setImage1(target.files[0]);
-                        }
-                      }} 
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="image2">
-                    <Form.Label>Image 2</Form.Label>
-                    <Form.Control 
-                      type="file" 
-                      onChange={(e) => {
-                        const target = e.target as HTMLInputElement; // Type assertion
-                        if (target.files) {
-                          setImage2(target.files[0]);
-                        }
-                      }} 
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              {/* Ownership & Legal Info */}
-              <h5 className="text-primary mb-3 mt-4">📝 Ownership & Legal Info</h5>
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="previous_owners">
-                    <Form.Label>Previous Owners</Form.Label>
-                    <Form.Control type="number" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="rc_available">
-                    <Form.Label>RC Available</Form.Label>
-                    <Form.Select onChange={handleChange}>
-                      <option>Yes</option>
-                      <option>No</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="insurance_type">
-                    <Form.Label>Insurance Type</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="insurance_validity">
-                    <Form.Label>Insurance Validity</Form.Label>
-                    <Form.Control type="date" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="pollution_validity">
-                    <Form.Label>Pollution Cert Validity</Form.Label>
-                    <Form.Control type="date" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="loan_clearance_cert">
-                    <Form.Label>Loan Clearance Cert</Form.Label>
-                    <Form.Select onChange={handleChange}>
-                      <option>Yes</option>
-                      <option>No</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group controlId="vin">
-                    <Form.Label>VIN / Chassis Number</Form.Label>
-                    <Form.Control type="text" onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="service_history">
-                    <Form.Label>Service History</Form.Label>
-                    <Form.Control as="textarea" rows={1} onChange={handleChange} />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group controlId="road_tax_paid">
-                    <Form.Label>Road Tax Paid</Form.Label>
-                    <Form.Select onChange={handleChange}>
-                      <option>Yes</option>
-                      <option>No</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-              </Row>
-
-              <div className="text-center">
-                <Button variant="primary" type="submit" className="mt-4 px-5">
-                  Submit
-                </Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
+            <div className="text-center mt-6">
+              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      {/* Responsive Fix */}
-      <style>{`
-        @media (max-width: 768px) {
-          .vehicle-page-content {
-            margin-left: 0 !important;
-            padding: 1rem !important;
-            width: 100%;
-          }
-        }
-      `}</style>
     </div>
   );
 };
+
+// Reusable Input
+const InputField = ({ id, label, type = "text", onChange }: any) => (
+  <div>
+    <label htmlFor={id} className="block font-medium text-sm mb-1">{label}</label>
+    <input id={id} type={type} onChange={onChange} className="w-full border rounded-md px-3 py-2 text-sm shadow-sm" />
+  </div>
+);
+
+// Reusable Select
+const SelectField = ({ id, label, options, onChange }: any) => (
+  <div>
+    <label htmlFor={id} className="block font-medium text-sm mb-1">{label}</label>
+    <select id={id} onChange={onChange} className="w-full border rounded-md px-3 py-2 text-sm shadow-sm">
+      {options.map((opt: string) => (
+        <option key={opt}>{opt}</option>
+      ))}
+    </select>
+  </div>
+);
+
+// Reusable File Upload
+const FileField = ({ label, setFile }: { label: string; setFile: (file: File) => void }) => (
+  <div>
+    <label className="block font-medium text-sm mb-1">{label}</label>
+    <input
+      type="file"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (file) setFile(file);
+      }}
+      className="w-full border rounded-md px-3 py-2 text-sm shadow-sm"
+    />
+  </div>
+);
+
+// Reusable Textarea
+const TextAreaField = ({ id, label, onChange }: any) => (
+  <div>
+    <label htmlFor={id} className="block font-medium text-sm mb-1">{label}</label>
+    <textarea id={id} rows={2} onChange={onChange} className="w-full border rounded-md px-3 py-2 text-sm shadow-sm" />
+  </div>
+);
 
 export default VehicleDetails;

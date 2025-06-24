@@ -1,8 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Form, Button, Card, Row, Col, Alert, Container } from "react-bootstrap";
 import baseURL from "../../../BaseUrl";
 import Navbar from "../sidebar/Navbar";
-import "./Gallery.css"; // optional custom CSS
 
 interface FormDataState {
   name: string;
@@ -22,7 +20,9 @@ const Gallery: React.FC = () => {
     file: null,
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   };
@@ -75,122 +75,106 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <div style={{ marginTop: "60px" }}>
+    <div className="pt-16">
       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      <div
-        style={{
-          marginLeft: sidebarCollapsed ? "100px" : "220px",
-          padding: "2rem",
-          transition: "margin-left 0.3s ease",
-        }}
-      >
-        <Container>
-          <Card className="shadow-lg border-0 rounded-4 gallery-card">
-            <Card.Body>
-              <h3 className="text-center text-dark mb-4">
-                🎨 <strong>Gallery Upload</strong>
-              </h3>
+      <div className={`transition-all duration-300 px-4 md:px-10 ${sidebarCollapsed ? "ml-24" : "ml-56"}`}>
+        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8">
+          <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800">
+            🎨 Gallery Upload
+          </h2>
 
-              {error && <Alert variant="danger" className="text-center">{error}</Alert>}
-              {success && <Alert variant="success" className="text-center">{success}</Alert>}
+          {error && <div className="bg-red-100 text-red-700 p-3 mb-4 rounded text-center">{error}</div>}
+          {success && <div className="bg-green-100 text-green-700 p-3 mb-4 rounded text-center">{success}</div>}
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-4">
-                  <Form.Label className="fw-bold">📁 Select Upload Type</Form.Label>
-                  <div>
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Image"
-                      name="uploadType"
-                      value="image"
-                      checked={uploadType === "image"}
-                      onChange={(e) => setUploadType(e.target.value as "image" | "video")}
-                    />
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Video"
-                      name="uploadType"
-                      value="video"
-                      checked={uploadType === "video"}
-                      onChange={(e) => setUploadType(e.target.value as "image" | "video")}
-                    />
-                  </div>
-                </Form.Group>
-
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-4" controlId="name">
-                      <Form.Label className="fw-bold">
-                        🖼 {uploadType === "image" ? "Image Name" : "Video Name"}
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder={`Enter ${uploadType} name`}
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group className="mb-4" controlId="file">
-                      <Form.Label className="fw-bold">
-                        📤 Upload {uploadType === "image" ? "Image" : "Video"}
-                      </Form.Label>
-                      <Form.Control
-                        type="file"
-                        accept={uploadType === "image" ? "image/*" : "video/*"}
-                        onChange={handleFileChange}
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Form.Group className="mb-4" controlId="description">
-                  <Form.Label className="fw-bold">📝 Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    placeholder="Write a description..."
-                    value={formData.description}
-                    onChange={handleInputChange}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="font-semibold block mb-2">
+                📁 Select Upload Type
+              </label>
+              <div className="flex gap-6">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    value="image"
+                    checked={uploadType === "image"}
+                    onChange={() => setUploadType("image")}
                   />
-                </Form.Group>
+                  <span className="ml-2">Image</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    className="form-radio"
+                    value="video"
+                    checked={uploadType === "video"}
+                    onChange={() => setUploadType("video")}
+                  />
+                  <span className="ml-2">Video</span>
+                </label>
+              </div>
+            </div>
 
-                <div className="text-center">
-                  <Button variant="primary" type="submit" className="px-4 py-2 rounded-pill gallery-button">
-                    🚀 Upload {uploadType === "image" ? "Image" : "Video"}
-                  </Button>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Container>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block font-semibold mb-1">
+                  🖼️ {uploadType === "image" ? "Image Name" : "Video Name"}
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  placeholder={`Enter ${uploadType} name`}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">
+                  📄 Upload {uploadType === "image" ? "Image" : "Video"}
+                </label>
+                <input
+                  id="file"
+                  type="file"
+                  accept={uploadType === "image" ? "image/*" : "video/*"}
+                  onChange={handleFileChange}
+                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                             file:rounded-full file:border-0
+                             file:text-sm file:font-semibold
+                             file:bg-blue-50 file:text-blue-700
+                             hover:file:bg-blue-100"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block font-semibold mb-1">
+                📝 Description
+              </label>
+              <textarea
+                id="description"
+                rows={3}
+                value={formData.description}
+                onChange={handleInputChange}
+                className="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Write a description..."
+              ></textarea>
+            </div>
+
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-blue-700 transition transform hover:scale-105"
+              >
+                🚀 Upload {uploadType === "image" ? "Image" : "Video"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          div[style*="margin-left"] {
-            margin-left: 0 !important;
-            padding: 1rem !important;
-          }
-        }
-        .gallery-card {
-          background-color: #f8f9fa; /* Light background for the card */
-          border-radius: 15px; /* Rounded corners */
-        }
-        .gallery-button {
-          transition: background-color 0.3s, transform 0.2s;
-        }
-        .gallery-button:hover {
-          background-color: #0056b3; /* Darker shade for hover effect */
-          transform: scale(1.05); /* Slightly enlarge button on hover */
-        }
-      `}</style>
     </div>
   );
 };

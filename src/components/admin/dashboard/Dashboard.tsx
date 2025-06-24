@@ -1,90 +1,57 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
 import Navbar from "../sidebar/Navbar";
-
 
 const Dashboard: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
 
   return (
-    <div className="dashboard-wrapper">
+    <div className="mt-[60px]">
       {/* Top Navbar */}
-       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
+      <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
       {/* Main Content */}
-      <div className={`dashboard-content ${sidebarCollapsed ? "collapsed" : ""}`}>
-        <Container fluid>
-          <h2 className="mb-4 text-center">Welcome, Admin!</h2>
+      <div
+        className={`transition-all duration-300 ${
+          sidebarCollapsed ? "ml-[100px]" : "ml-[220px]"
+        } px-4 py-6 max-w-screen-xl`}
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">Welcome, Admin!</h2>
 
-          <Row className="g-4">
-            <Col xs={12} md={6} lg={3}>
-              <Card className="text-white bg-success shadow-sm">
-                <Card.Body>
-                  <Card.Title>Total Users</Card.Title>
-                  <Card.Text style={{ fontSize: "24px" }}>1,245</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+        {/* Statistic Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="bg-green-600 text-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold">Total Users</h3>
+            <p className="text-2xl font-bold mt-2">1,245</p>
+          </div>
 
-            <Col xs={12} md={6} lg={3}>
-              <Card className="text-white bg-info shadow-sm">
-                <Card.Body>
-                  <Card.Title>Gallery</Card.Title>
-                  <Card.Text style={{ fontSize: "24px" }}>75</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+          <div className="bg-blue-500 text-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold">Gallery</h3>
+            <p className="text-2xl font-bold mt-2">75</p>
+          </div>
 
-            <Col xs={12} md={6} lg={3}>
-              <Card className="text-white bg-warning shadow-sm">
-                <Card.Body>
-                  <Card.Title>Contact</Card.Title>
-                  <Card.Text style={{ fontSize: "24px" }}>93</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+          <div className="bg-yellow-500 text-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold">Contact</h3>
+            <p className="text-2xl font-bold mt-2">93</p>
+          </div>
 
-            <Col xs={12} md={6} lg={3}>
-              <Card className="text-white bg-danger shadow-sm">
-                <Card.Body>
-                  <Card.Title>Vehicle Details</Card.Title>
-                  <Card.Text style={{ fontSize: "24px" }}>24</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+          <div className="bg-red-600 text-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold">Vehicle Details</h3>
+            <p className="text-2xl font-bold mt-2">24</p>
+          </div>
+        </div>
 
-          {/* Recent Activity Section */}
-          <Row className="mt-5">
-            <Col>
-              <Card className="shadow-sm">
-                <Card.Body>
-                  <Card.Title>Recent Activity</Card.Title>
-                  <Card.Text>No recent activity. Stay tuned!</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+        {/* Recent Activity Section */}
+        <div className="mt-10">
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-2">Recent Activity</h3>
+            <p className="text-gray-600">No recent activity. Stay tuned!</p>
+          </div>
+        </div>
       </div>
 
-      {/* Embedded Responsive Styles */}
+      {/* Responsive Styles */}
       <style>{`
-        .dashboard-wrapper {
-          margin-top: 60px;
-        }
-
-        .dashboard-content {
-          margin-left: 220px;
-          padding: 2rem;
-          transition: margin-left 0.3s ease;
-        }
-
-        .dashboard-content.collapsed {
-          margin-left: 100px;
-        }
-
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
           .dashboard-content {
             margin-left: 0 !important;
             padding: 1rem !important;

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Card, Spinner, Alert, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import baseURL from '../../../BaseUrl';
-import ViewModal from './ViewModal';
-import Navbar from '../sidebar/Navbar';
-import { Eye } from 'react-bootstrap-icons'; // Correct import for Eye icon
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import baseURL from "../../../BaseUrl";
+import ViewModal from "./ViewModal";
+import Navbar from "../sidebar/Navbar";
+import { Eye } from "react-bootstrap-icons";
 
 interface Vehicle {
   id: number;
@@ -15,26 +14,26 @@ interface Vehicle {
   transmission_type: string;
   color: string;
   year_of_manufacture: number;
-  variant: string; // Ensure this property is included
-  mileage: number; // Ensure this property is included
-  engine_capacity: number; // Ensure this property is included
-  previous_owners: number; // Ensure this property is included
-  rc_available: string; // Ensure this property is included
-  insurance_type: string; // Ensure this property is included
-  insurance_validity: string; // Ensure this property is included
-  pollution_validity: string; // Ensure this property is included
-  loan_clearance_cert: string; // Ensure this property is included
-  vin: string; // Ensure this property is included
-  service_history: string; // Ensure this property is included
-  road_tax_paid: string; // Ensure this property is included
-  image1?: string; // Optional property
-  image2?: string; // Optional property
+  variant: string;
+  mileage: number;
+  engine_capacity: number;
+  previous_owners: number;
+  rc_available: string;
+  insurance_type: string;
+  insurance_validity: string;
+  pollution_validity: string;
+  loan_clearance_cert: string;
+  vin: string;
+  service_history: string;
+  road_tax_paid: string;
+  image1?: string;
+  image2?: string;
 }
 
 const VehicleTable: React.FC = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -45,10 +44,10 @@ const VehicleTable: React.FC = () => {
       try {
         const response = await fetch(`${baseURL}/vehicles`);
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Failed to fetch vehicles');
+        if (!response.ok) throw new Error(data.error || "Failed to fetch vehicles");
         setVehicles(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
+      } catch (err: any) {
+        setError(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -58,74 +57,83 @@ const VehicleTable: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ marginTop: '60px' }}>
+    <div className="mt-[60px]">
       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
       <div
-        className="vehicle-table-content"
-        style={{
-          marginLeft: sidebarCollapsed ? '100px' : '220px',
-          padding: '2rem',
-          transition: 'margin-left 0.3s ease',
-        }}
+        className={`transition-all duration-300 ${
+          sidebarCollapsed ? "ml-[100px]" : "ml-[220px]"
+        } px-4 py-6`}
       >
-        <Card className="shadow-sm">
-          <Card.Body>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h2 className="mb-0">🚗 Vehicle Records</h2>
-              <Button variant="primary" onClick={() => navigate('/admin-details-form')}>
-                Add Vehicle
-              </Button>
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold">🚗 Vehicle Records</h2>
+            <button
+              onClick={() => navigate("/admin-details-form")}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            >
+              Add Vehicle
+            </button>
+          </div>
+
+          {loading && (
+            <div className="text-center py-4">
+              <span className="text-blue-600">Loading...</span>
             </div>
+          )}
 
-            {loading && <div className="text-center"><Spinner animation="border" /></div>}
-            {error && <Alert variant="danger" className="text-center">{error}</Alert>}
+          {error && (
+            <div className="text-center text-red-600 bg-red-100 p-3 rounded-md mb-4">
+              {error}
+            </div>
+          )}
 
-            {!loading && !error && (
-              <Table bordered responsive hover>
-                <thead className="table-dark text-center">
+          {!loading && !error && (
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full border text-sm text-center">
+                <thead className="bg-gray-800 text-white">
                   <tr>
-                    <th>S.No</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Reg No</th>
-                    <th>Fuel</th>
-                    <th>Transmission</th>
-                    <th>Color</th>
-                    <th>Year</th>
-                    <th>Actions</th>
+                    <th className="px-3 py-2 border">S.No</th>
+                    <th className="px-3 py-2 border">Brand</th>
+                    <th className="px-3 py-2 border">Model</th>
+                    <th className="px-3 py-2 border">Reg No</th>
+                    <th className="px-3 py-2 border">Fuel</th>
+                    <th className="px-3 py-2 border">Transmission</th>
+                    <th className="px-3 py-2 border">Color</th>
+                    <th className="px-3 py-2 border">Year</th>
+                    <th className="px-3 py-2 border">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="text-center">
+                <tbody>
                   {vehicles.map((v, index) => (
-                    <tr key={v.id}>
-                      <td>{index + 1}</td>
-                      <td>{v.make_brand}</td>
-                      <td>{v.model}</td>
-                      <td>{v.registration_number}</td>
-                      <td>{v.fuel_type}</td>
-                      <td>{v.transmission_type}</td>
-                      <td>{v.color}</td>
-                      <td>{v.year_of_manufacture}</td>
-                      <td>
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
+                    <tr key={v.id} className="hover:bg-gray-100">
+                      <td className="border px-3 py-2">{index + 1}</td>
+                      <td className="border px-3 py-2">{v.make_brand}</td>
+                      <td className="border px-3 py-2">{v.model}</td>
+                      <td className="border px-3 py-2">{v.registration_number}</td>
+                      <td className="border px-3 py-2">{v.fuel_type}</td>
+                      <td className="border px-3 py-2">{v.transmission_type}</td>
+                      <td className="border px-3 py-2">{v.color}</td>
+                      <td className="border px-3 py-2">{v.year_of_manufacture}</td>
+                      <td className="border px-3 py-2">
+                        <button
                           onClick={() => {
                             setSelectedVehicle(v);
                             setShowModal(true);
                           }}
+                          className="text-blue-600 hover:text-blue-800"
+                          title="View Details"
                         >
-                          <Eye />
-                        </Button>
+                          <Eye size={18} />
+                        </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
-              </Table>
-            )}
-          </Card.Body>
-        </Card>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* View Modal */}
