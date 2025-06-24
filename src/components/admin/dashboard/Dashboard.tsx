@@ -1,8 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../sidebar/Navbar";
+import axios from "axios";
+import baseURL from "../../../BaseUrl";
 
 const Dashboard: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+
+  const [galleryCount, setGalleryCount] = useState<number>(0);
+  const [contactCount, setContactCount] = useState<number>(0);
+  const [vehicleCount, setVehicleCount] = useState<number>(0);
+
+  useEffect(() => {
+    // Fetch gallery count
+    axios.get(`${baseURL}/gallery`).then((res) => {
+      setGalleryCount(res.data.length);
+    });
+
+    // Fetch contact count
+    axios.get(`${baseURL}/contacts`).then((res) => {
+      setContactCount(res.data.length);
+    });
+
+    // Fetch vehicle count
+    axios.get(`${baseURL}/vehicles`).then((res) => {
+      setVehicleCount(res.data.length);
+    });
+  }, []);
 
   return (
     <div className="mt-[60px]">
@@ -19,26 +42,22 @@ const Dashboard: React.FC = () => {
 
         {/* Statistic Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-green-600 text-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold">Total Users</h3>
-            <p className="text-2xl font-bold mt-2">1,245</p>
-          </div>
+  <div className="bg-blue-600 text-white rounded-lg shadow p-6">
+    <h3 className="text-lg font-semibold">Gallery</h3>
+    <p className="text-2xl font-bold mt-2">{galleryCount}</p>
+  </div>
 
-          <div className="bg-blue-500 text-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold">Gallery</h3>
-            <p className="text-2xl font-bold mt-2">75</p>
-          </div>
+  <div className="bg-teal-500 text-white rounded-lg shadow p-6">
+    <h3 className="text-lg font-semibold">Contact</h3>
+    <p className="text-2xl font-bold mt-2">{contactCount}</p>
+  </div>
 
-          <div className="bg-yellow-500 text-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold">Contact</h3>
-            <p className="text-2xl font-bold mt-2">93</p>
-          </div>
+  <div className="bg-orange-500 text-white rounded-lg shadow p-6">
+    <h3 className="text-lg font-semibold">Vehicle Details</h3>
+    <p className="text-2xl font-bold mt-2">{vehicleCount}</p>
+  </div>
+</div>
 
-          <div className="bg-red-600 text-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold">Vehicle Details</h3>
-            <p className="text-2xl font-bold mt-2">24</p>
-          </div>
-        </div>
 
         {/* Recent Activity Section */}
         <div className="mt-10">
