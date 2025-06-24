@@ -74,9 +74,18 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation
+} from "react-router-dom";
+
+// Pages & Components
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
+
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -86,22 +95,35 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./components/Authentication/LoginPage";
-import ScrollToTop from "./components/ScrollToTop";
+
+// Admin Panel
 import Dashboard from "./components/admin/dashboard/Dashboard";
 import Login from "./components/admin/login/Login";
 import Gallery from "./components/admin/gallery/Gallery";
 import VehicleDetails from "./components/admin/vehicleDetails/VehicleDetails";
 import GalleryTable from "./components/admin/gallery/GalleryTable";
 import VehicleTable from "./components/admin/vehicleDetails/VehicleTable";
-import Contacts from "./pages/Contact";
-import Contact from "./components/admin/contact/Contact";
+import ContactPage from "./components/admin/contact/AdminContact";
+import Contact from "./pages/Contact";
 
-
+// Create query client
 const queryClient = new QueryClient();
 
+// Define admin paths for layout exclusion
+const adminPaths = [
+  "/dashboard",
+  "/admin",
+  "/admin-gallery-form",
+  "/admin-details-form",
+  "/admin-gallery-table",
+  "/admin-details-table",
+  "/Contactdetails"
+];
+
+// Component to conditionally render layout
 const AppContent = () => {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith("/admin") || location.pathname === "/dashboard";
+  const isAdminRoute = adminPaths.includes(location.pathname);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -109,26 +131,26 @@ const AppContent = () => {
       {!isAdminRoute && <Header />}
       <main className="flex-grow">
         <Routes>
-          {/* Public routes */}
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/contacts" element={<Contacts />} />
+          {/* <Route path="/contact" element={<Contact />} /> */}
+           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />
 
-          {/* Admin panel routes */}
+          {/* Admin Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Login />} />
           <Route path="/admin-gallery-form" element={<Gallery />} />
-          {/* <Route path="/admin-contact" element={<Contact />} /> */}
           <Route path="/admin-details-form" element={<VehicleDetails />} />
           <Route path="/admin-gallery-table" element={<GalleryTable />} />
           <Route path="/admin-details-table" element={<VehicleTable />} />
-           <Route path="/admin-contact-table" element={<Contact />} />
+          <Route path="/Contactdetails" element={<ContactPage />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}
@@ -136,6 +158,7 @@ const AppContent = () => {
   );
 };
 
+// Main App
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

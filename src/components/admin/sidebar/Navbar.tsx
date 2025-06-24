@@ -83,7 +83,7 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
                 {!collapsed && <span className="link_text">Car Details</span>}
               </Link>
 
-              <Link className={`nav-link ${location.pathname === "/admin-contact-table" ? "active" : ""}`} to="/admin-contact-table" onClick={handleNavItemClick}>
+              <Link className={`nav-link ${location.pathname === "/Contactdetails" ? "active" : ""}`} to="/Contactdetails" onClick={handleNavItemClick}>
                 <FaPhoneAlt className="admin-nav-icon" />
                 {!collapsed && <span className="link_text">Contact</span>}
               </Link>
