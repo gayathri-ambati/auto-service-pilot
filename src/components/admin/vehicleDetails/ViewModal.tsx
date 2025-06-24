@@ -1,5 +1,4 @@
 import React from 'react';
-import { Modal, Button, Row, Col, Image } from 'react-bootstrap';
 import baseURL from '../../../BaseUrl';
 
 interface Vehicle {
@@ -33,87 +32,95 @@ interface ViewModalProps {
 }
 
 const ViewModal: React.FC<ViewModalProps> = ({ show, onHide, vehicle }) => {
-  if (!vehicle) return null; // Ensure vehicle is not null
+  if (!show || !vehicle) return null;
 
   return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Vehicle Details - {vehicle.make_brand} {vehicle.model}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5 className="text-primary mb-3">🔧 Car Details</h5>
-        <Row className="mb-2">
-          <Col md={6}><strong>Make/Brand:</strong> {vehicle.make_brand}</Col>
-          <Col md={6}><strong>Model:</strong> {vehicle.model}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Variant:</strong> {vehicle.variant}</Col>
-          <Col md={6}><strong>Year:</strong> {vehicle.year_of_manufacture}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Registration No:</strong> {vehicle.registration_number}</Col>
-          <Col md={6}><strong>Fuel Type:</strong> {vehicle.fuel_type}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Transmission:</strong> {vehicle.transmission_type}</Col>
-          <Col md={6}><strong>Mileage:</strong> {vehicle.mileage} km</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Color:</strong> {vehicle.color}</Col>
-          <Col md={6}><strong>Engine Capacity:</strong> {vehicle.engine_capacity} cc</Col>
-        </Row>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 px-4 mt-10">
+      <div className="bg-white w-full max-w-4xl rounded-lg shadow-lg overflow-y-auto max-h-[90vh]">
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Vehicle Details - {vehicle.make_brand} {vehicle.model}
+          </h2>
+          <button onClick={onHide} className="text-gray-500 text-2xl hover:text-red-500">&times;</button>
+        </div>
 
-        <h5 className="text-primary mt-4 mb-3">📝 Ownership & Legal Info</h5>
-        <Row className="mb-2">
-          <Col md={6}><strong>Previous Owners:</strong> {vehicle.previous_owners}</Col>
-          <Col md={6}><strong>RC Available:</strong> {vehicle.rc_available}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Insurance Type:</strong> {vehicle.insurance_type}</Col>
-          <Col md={6}><strong>Insurance Validity:</strong> {vehicle.insurance_validity}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>Pollution Cert Validity:</strong> {vehicle.pollution_validity}</Col>
-          <Col md={6}><strong>Loan Clearance Cert:</strong> {vehicle.loan_clearance_cert}</Col>
-        </Row>
-        <Row className="mb-2">
-          <Col md={6}><strong>VIN/Chassis No:</strong> {vehicle.vin}</Col>
-          <Col md={6}><strong>Service History:</strong> {vehicle.service_history}</Col>
-        </Row>
-        <Row className="mb-3">
-          <Col md={6}><strong>Road Tax Paid:</strong> {vehicle.road_tax_paid}</Col>
-        </Row>
+        {/* Body */}
+        <div className="p-6 space-y-6 text-sm text-gray-700">
+          {/* Car Details */}
+          <div>
+            <h3 className="text-blue-600 font-medium mb-2">🔧 Car Details</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <p><strong>Make/Brand:</strong> {vehicle.make_brand}</p>
+              <p><strong>Model:</strong> {vehicle.model}</p>
+              <p><strong>Variant:</strong> {vehicle.variant}</p>
+              <p><strong>Year:</strong> {vehicle.year_of_manufacture}</p>
+              <p><strong>Registration No:</strong> {vehicle.registration_number}</p>
+              <p><strong>Fuel Type:</strong> {vehicle.fuel_type}</p>
+              <p><strong>Transmission:</strong> {vehicle.transmission_type}</p>
+              <p><strong>Mileage:</strong> {vehicle.mileage} km</p>
+              <p><strong>Color:</strong> {vehicle.color}</p>
+              <p><strong>Engine Capacity:</strong> {vehicle.engine_capacity} cc</p>
+            </div>
+          </div>
 
-        <h5 className="text-primary mt-4 mb-3">🖼 Vehicle Images</h5>
-        <Row>
-          <Col md={6} className="mb-3">
-            <strong>Image 1:</strong><br />
-            {vehicle.image1 && (
-              <Image
-                src={`${baseURL.replace('/api', '')}/uploads/${vehicle.image1}`}
-                thumbnail
-                fluid
-                alt="Vehicle Image 1"
-              />
-            )}
-          </Col>
-          <Col md={6} className="mb-3">
-            <strong>Image 2:</strong><br />
-            {vehicle.image2 && (
-              <Image
-                src={`${baseURL.replace('/api', '')}/uploads/${vehicle.image2}`}
-                thumbnail
-                fluid
-                alt="Vehicle Image 2"
-              />
-            )}
-          </Col>
-        </Row>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
+          {/* Legal Info */}
+          <div>
+            <h3 className="text-blue-600 font-medium mb-2">📝 Ownership & Legal Info</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <p><strong>Previous Owners:</strong> {vehicle.previous_owners}</p>
+              <p><strong>RC Available:</strong> {vehicle.rc_available}</p>
+              <p><strong>Insurance Type:</strong> {vehicle.insurance_type}</p>
+              <p><strong>Insurance Validity:</strong> {vehicle.insurance_validity}</p>
+              <p><strong>Pollution Validity:</strong> {vehicle.pollution_validity}</p>
+              <p><strong>Loan Clearance Cert:</strong> {vehicle.loan_clearance_cert}</p>
+              <p><strong>VIN:</strong> {vehicle.vin}</p>
+              <p><strong>Service History:</strong> {vehicle.service_history}</p>
+              <p><strong>Road Tax Paid:</strong> {vehicle.road_tax_paid}</p>
+            </div>
+          </div>
+
+          {/* Images */}
+          {(vehicle.image1 || vehicle.image2) && (
+            <div>
+              <h3 className="text-blue-600 font-medium mb-2">🖼 Vehicle Images</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {vehicle.image1 && (
+                  <div>
+                    <p className="font-semibold mb-1">Image 1:</p>
+                    <img
+                      src={`${baseURL.replace('/api', '')}/uploads/${vehicle.image1}`}
+                      alt="Vehicle 1"
+                      className="rounded shadow border w-full object-contain max-h-60"
+                    />
+                  </div>
+                )}
+                {vehicle.image2 && (
+                  <div>
+                    <p className="font-semibold mb-1">Image 2:</p>
+                    <img
+                      src={`${baseURL.replace('/api', '')}/uploads/${vehicle.image2}`}
+                      alt="Vehicle 2"
+                      className="rounded shadow border w-full object-contain max-h-60"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end px-6 py-4 border-t">
+          <button
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition"
+            onClick={onHide}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

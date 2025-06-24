@@ -57,71 +57,94 @@ const VehicleTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-[60px]">
+    <div style={{ marginTop: "60px" }}>
       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
       <div
-        className={`transition-all duration-300 ${
-          sidebarCollapsed ? "ml-[100px]" : "ml-[220px]"
-        } px-4 py-6`}
+        className="transition-all duration-300"
+        style={{
+          marginLeft: sidebarCollapsed ? "100px" : "220px",
+          padding: "2rem",
+        }}
       >
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold">🚗 Vehicle Records</h2>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                🚗 Vehicle Records
+              </h1>
+              <p className="text-lg text-gray-600">
+                View all vehicle inventory and details
+              </p>
+            </div>
             <button
               onClick={() => navigate("/admin-details-form")}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
             >
               Add Vehicle
             </button>
           </div>
 
-          {loading && (
-            <div className="text-center py-4">
-              <span className="text-blue-600">Loading...</span>
+          {loading ? (
+            <div className="text-center py-6 text-gray-500">
+              <p>Loading vehicle records...</p>
             </div>
-          )}
-
-          {error && (
-            <div className="text-center text-red-600 bg-red-100 p-3 rounded-md mb-4">
-              {error}
+          ) : error ? (
+            <div className="text-center text-red-600 font-medium">{error}</div>
+          ) : vehicles.length === 0 ? (
+            <div className="text-center text-gray-500">
+              No vehicle records found.
             </div>
-          )}
-
-          {!loading && !error && (
+          ) : (
             <div className="overflow-x-auto">
-              <table className="table-auto w-full border text-sm text-center">
-                <thead className="bg-gray-800 text-white">
+              <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead className="bg-gray-100 text-gray-600 uppercase text-sm">
                   <tr>
-                    <th className="px-3 py-2 border">S.No</th>
-                    <th className="px-3 py-2 border">Brand</th>
-                    <th className="px-3 py-2 border">Model</th>
-                    <th className="px-3 py-2 border">Reg No</th>
-                    <th className="px-3 py-2 border">Fuel</th>
-                    <th className="px-3 py-2 border">Transmission</th>
-                    <th className="px-3 py-2 border">Color</th>
-                    <th className="px-3 py-2 border">Year</th>
-                    <th className="px-3 py-2 border">Actions</th>
+                    <th className="px-4 py-3 text-left">S.No</th>
+                    <th className="px-4 py-3 text-left">Brand</th>
+                    <th className="px-4 py-3 text-left">Model</th>
+                    <th className="px-4 py-3 text-left">Reg No</th>
+                    <th className="px-4 py-3 text-left">Fuel</th>
+                    <th className="px-4 py-3 text-left">Transmission</th>
+                    <th className="px-4 py-3 text-left">Color</th>
+                    <th className="px-4 py-3 text-left">Year</th>
+                    <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {vehicles.map((v, index) => (
-                    <tr key={v.id} className="hover:bg-gray-100">
-                      <td className="border px-3 py-2">{index + 1}</td>
-                      <td className="border px-3 py-2">{v.make_brand}</td>
-                      <td className="border px-3 py-2">{v.model}</td>
-                      <td className="border px-3 py-2">{v.registration_number}</td>
-                      <td className="border px-3 py-2">{v.fuel_type}</td>
-                      <td className="border px-3 py-2">{v.transmission_type}</td>
-                      <td className="border px-3 py-2">{v.color}</td>
-                      <td className="border px-3 py-2">{v.year_of_manufacture}</td>
-                      <td className="border px-3 py-2">
+                <tbody className="divide-y divide-gray-200">
+                  {vehicles.map((vehicle, index) => (
+                    <tr key={vehicle.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {index + 1}
+                      </td>
+                      <td className="px-4 py-3 text-sm font-medium text-gray-900">
+                        {vehicle.make_brand}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.model}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.registration_number}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.fuel_type}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.transmission_type}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.color}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {vehicle.year_of_manufacture}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
                         <button
                           onClick={() => {
-                            setSelectedVehicle(v);
+                            setSelectedVehicle(vehicle);
                             setShowModal(true);
                           }}
-                          className="text-blue-600 hover:text-blue-800"
+                          className="text-blue-600 hover:text-blue-800 transition-colors"
                           title="View Details"
                         >
                           <Eye size={18} />
@@ -145,12 +168,21 @@ const VehicleTable: React.FC = () => {
         />
       )}
 
-      {/* Responsive Fix */}
       <style>{`
         @media (max-width: 768px) {
-          .vehicle-table-content {
+          .transition-all {
             margin-left: 0 !important;
             padding: 1rem !important;
+          }
+          table th, table td {
+            padding: 8px !important;
+            font-size: 0.85rem;
+          }
+          .text-4xl {
+            font-size: 2rem !important;
+          }
+          .text-lg {
+            font-size: 1rem !important;
           }
         }
       `}</style>

@@ -39,71 +39,81 @@ const GalleryTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="mt-[60px] min-h-screen bg-gray-100 text-gray-800">
+    <div style={{ marginTop: "60px" }}>
       <Navbar onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} />
       <div
-        className={`transition-all duration-300 ${
-          sidebarCollapsed ? "ml-[100px]" : "ml-[220px]"
-        } px-4 py-6`}
+        className="transition-all duration-300"
+        style={{
+          marginLeft: sidebarCollapsed ? "100px" : "220px",
+          padding: "2rem",
+        }}
       >
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-semibold flex items-center gap-2">
-              📸 Gallery Items
-            </h2>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div className="mb-4 md:mb-0">
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                📸 Gallery Items
+              </h1>
+              <p className="text-lg text-gray-600">
+                View and manage your gallery content
+              </p>
+            </div>
             <button
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md shadow-md transition-colors w-full md:w-auto"
               onClick={() => navigate("/admin-gallery-form")}
             >
-              Add New
+              Add New Item
             </button>
           </div>
 
-          {loading && (
+          {loading ? (
             <div className="text-center py-10">
-              <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto" />
-              <p className="mt-2 text-sm text-gray-500">Loading gallery items...</p>
+              <div className="animate-spin h-10 w-10 border-4 border-blue-500 border-t-transparent rounded-full mx-auto" />
+              <p className="mt-3 text-gray-600">Loading gallery items...</p>
             </div>
-          )}
-
-          {error && (
-            <div className="bg-red-100 text-red-600 text-center p-4 rounded-md mb-4">
+          ) : error ? (
+            <div className="bg-red-100 text-red-700 p-4 rounded-md text-center mb-6">
               {error}
             </div>
-          )}
-
-          {!loading && !error && (
+          ) : galleryItems.length === 0 ? (
+            <div className="text-center py-10 text-gray-500">
+              No gallery items found.
+            </div>
+          ) : (
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-sm text-left">
-                <thead>
-                  <tr className="bg-gray-800 text-white text-center">
-                    <th className="px-4 py-2 border">S.No</th>
-                    <th className="px-4 py-2 border">Type</th>
-                    <th className="px-4 py-2 border">Name</th>
-                    <th className="px-4 py-2 border">Description</th>
-                    <th className="px-4 py-2 border">Preview</th>
-                    <th className="px-4 py-2 border">Uploaded On</th>
+              <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead className="bg-gray-100 text-gray-600 uppercase text-sm">
+                  <tr>
+                    <th className="px-4 py-3 text-left">S.No</th>
+                    <th className="px-4 py-3 text-left">Type</th>
+                    <th className="px-4 py-3 text-left">Name</th>
+                    <th className="px-4 py-3 text-left">Description</th>
+                    <th className="px-4 py-3 text-left">Preview</th>
+                    <th className="px-4 py-3 text-left">Uploaded On</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-gray-200">
                   {galleryItems.map((item, index) => (
-                    <tr
-                      key={item.id}
-                      className="bg-white hover:bg-gray-50 text-center transition"
-                    >
-                      <td className="px-4 py-3 border">{index + 1}</td>
-                      <td className="px-4 py-3 border capitalize">{item.type}</td>
-                      <td className="px-4 py-3 border">{item.name}</td>
-                      <td className="px-4 py-3 border text-gray-600">
-                        {item.description}
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {index + 1}
                       </td>
-                      <td className="px-4 py-3 border">
+                      <td className="px-4 py-3 text-sm font-medium text-gray-900 capitalize">
+                        {item.type}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {item.name}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700 max-w-xs break-words">
+                        {item.description || "N/A"}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
                         {item.file ? (
                           item.type === "image" ? (
                             <img
                               src={`${baseURL.replace("/api", "")}/uploads/${item.file}`}
                               alt={item.name}
-                              className="w-24 h-auto rounded-md mx-auto"
+                              className="w-20 h-auto rounded-md mx-auto"
                             />
                           ) : (
                             <video
@@ -121,8 +131,8 @@ const GalleryTable: React.FC = () => {
                           <span className="text-gray-400">N/A</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 border">
-                        {new Date(item.created_at).toLocaleString()}
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {new Date(item.created_at).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}
@@ -133,11 +143,28 @@ const GalleryTable: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Margin Fix */}
       <style>{`
         @media (max-width: 768px) {
-          .ml-[220px] {
+          .transition-all {
             margin-left: 0 !important;
+            padding: 1rem !important;
+          }
+          table th, table td {
+            padding: 8px !important;
+            font-size: 0.85rem;
+          }
+          .text-3xl {
+            font-size: 1.5rem !important;
+          }
+          .text-lg {
+            font-size: 1rem !important;
+          }
+          video {
+            width: 100px !important;
+            height: 60px !important;
+          }
+          img {
+            width: 60px !important;
           }
         }
       `}</style>
