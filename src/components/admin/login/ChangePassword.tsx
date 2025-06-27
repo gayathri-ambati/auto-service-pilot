@@ -18,7 +18,8 @@ const ChangePassword: React.FC = () => {
   setMessage('');
   setError('');
 
-  const trimmedEmail = email.trim(); // 🧼 Ensure no extra spaces
+const trimmedEmail = "admin@gmail.com"; // since it's now fixed
+
 
   console.log('📧 Email (trimmed):', trimmedEmail);
   console.log('🔐 New Password:', newPassword);
@@ -75,14 +76,15 @@ const ChangePassword: React.FC = () => {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+            <input
+  type="email"
+  id="email"
+  className="w-full border border-gray-300 px-4 py-2 rounded bg-gray-100 text-gray-700 cursor-not-allowed"
+  value="admin@gmail.com"
+  readOnly
+  required
+/>
+
             </div>
 
             <div>
