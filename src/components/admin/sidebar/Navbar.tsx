@@ -34,6 +34,9 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
   const handleLogout = () => {
     navigate("/");
   };
+    const handleChangePassword = () => {
+    navigate("/change-password");
+  };
 
   return (
     <div className="admin-nav-container">
@@ -61,6 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
               {showDropdown && (
                 <div className="admin-nav-profile-dropdown">
                   <div className="admin-nav-profile-header"><strong>Admin</strong></div>
+                  <div className="admin-nav-profile-item" onClick={handleChangePassword}>Change password</div>
                   <div className="admin-nav-profile-item" onClick={handleLogout}>Sign Out</div>
                 </div>
               )}

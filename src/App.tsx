@@ -106,6 +106,7 @@ import VehicleTable from "./components/admin/vehicleDetails/VehicleTable";
 import ContactPage from "./components/admin/contact/AdminContact";
 import Contact from "./pages/Contact";
 import GalleryPage from "./pages/GalleryPage";
+import ChangePassword from "./components/admin/login/ChangePassword";
 
 // Create query client
 const queryClient = new QueryClient();
@@ -118,7 +119,9 @@ const adminPaths = [
   "/admin-details-form",
   "/admin-gallery-table",
   "/admin-details-table",
-  "/Contactdetails"
+  "/Contactdetails",
+  "/change-password"
+
 ];
 
 // Component to conditionally render layout
@@ -144,7 +147,7 @@ const AppContent = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/gallery" element={<GalleryPage />} />
-
+         
           {/* Admin Routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<Login />} />
@@ -153,6 +156,7 @@ const AppContent = () => {
           <Route path="/admin-gallery-table" element={<GalleryTable />} />
           <Route path="/admin-details-table" element={<VehicleTable />} />
           <Route path="/Contactdetails" element={<ContactPage />} />
+           <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}

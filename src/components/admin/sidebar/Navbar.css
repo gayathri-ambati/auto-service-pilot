@@ -129,6 +129,7 @@
 
 .admin-nav-icon {
   margin-right: 10px;
+
 }
 
 .link_text {
@@ -168,4 +169,11 @@
   .admin-nav-company-logo {
     width: 100px;
   }
+
+  .admin-nav-icon {
+    font-size: 24px; /* for font icons */
+    width: 32px;      /* for SVG/image icons */
+    height: 32px;
+  }
 }
+
