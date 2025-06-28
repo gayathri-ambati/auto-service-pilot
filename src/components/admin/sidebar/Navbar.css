@@ -129,7 +129,8 @@
 
 .admin-nav-icon {
   margin-right: 10px;
-
+  min-width: 24px; /* Ensures consistent spacing */
+  text-align: center; /* Centers the icon */
 }
 
 .link_text {
@@ -159,7 +160,7 @@
 
   .admin-nav-sidebar.collapsed {
     display: block;
-    width: 60px;
+    width: 70px; /* Slightly wider to accommodate larger icons */
   }
 
   .admin-nav-sidebar.collapsed .link_text {
@@ -170,10 +171,31 @@
     width: 100px;
   }
 
+  /* Larger icons for mobile */
   .admin-nav-icon {
-    font-size: 24px; /* for font icons */
-    width: 32px;      /* for SVG/image icons */
-    height: 32px;
+    font-size: 1.8rem; /* Increased size for mobile */
+    margin-right: 0; /* Remove right margin when collapsed */
+    width: 100%; /* Take full width of container */
+    display: flex;
+    justify-content: center; /* Center icon horizontally */
+  }
+
+  /* Adjust padding for mobile collapsed state */
+  .admin-nav-item .nav-link {
+    padding: 20px 10px; /* More vertical padding for better touch targets */
+    justify-content: center; /* Center content when collapsed */
+  }
+
+  /* Profile image size in mobile */
+  .admin-nav-profile-img {
+    width: 40px;
+    height: 40px;
   }
 }
 
+/* Desktop icon sizing */
+@media (min-width: 768px) {
+  .admin-nav-icon {
+    font-size: 1.25rem; /* Appropriate size for desktop */
+  }
+}

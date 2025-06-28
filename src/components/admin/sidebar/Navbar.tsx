@@ -78,22 +78,23 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
           <ul className="nav flex-column">
             <li className="admin-nav-item">
               <Link className={`nav-link ${location.pathname === "/dashboard" ? "active" : ""}`} to="/dashboard" onClick={handleNavItemClick}>
-                <FaHome className="admin-nav-icon" />
+                <FaHome className="admin-nav-icon text-xl sm:text-lg" />
+
                 {!collapsed && <span className="link_text">Dashboard</span>}
               </Link>
 
               <Link className={`nav-link ${location.pathname === "/admin-details-table" ? "active" : ""}`} to="/admin-details-table" onClick={handleNavItemClick}>
-                <FaCarSide className="admin-nav-icon" />
+              <FaCarSide className="admin-nav-icon text-2xl md:text-lg" />
                 {!collapsed && <span className="link_text">Car Details</span>}
               </Link>
 
               <Link className={`nav-link ${location.pathname === "/Contactdetails" ? "active" : ""}`} to="/Contactdetails" onClick={handleNavItemClick}>
-                <FaPhoneAlt className="admin-nav-icon" />
+               <FaPhoneAlt className="admin-nav-icon text-2xl md:text-lg" />
                 {!collapsed && <span className="link_text">Contact</span>}
               </Link>
 
               <Link className={`nav-link ${location.pathname === "/admin-gallery-table" ? "active" : ""}`} to="/admin-gallery-table" onClick={handleNavItemClick}>
-                <FaImages className="admin-nav-icon" />
+               <FaImages className="admin-nav-icon text-2xl md:text-lg" />
                 {!collapsed && <span className="link_text">Gallery</span>}
               </Link>
             </li>
