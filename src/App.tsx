@@ -107,6 +107,8 @@ import ContactPage from "./components/admin/contact/AdminContact";
 import Contact from "./pages/Contact";
 import GalleryPage from "./pages/GalleryPage";
 import ChangePassword from "./components/admin/login/ChangePassword";
+import MechanicDetails from "./components/admin/mechanicdetails/MechanicDetails";
+import MechanicDetailsTable from "./components/admin/mechanicdetails/MechanicDetailsTable";
 
 // Create query client
 const queryClient = new QueryClient();
@@ -120,7 +122,10 @@ const adminPaths = [
   "/admin-gallery-table",
   "/admin-details-table",
   "/Contactdetails",
-  "/change-password"
+  "/change-password",
+  "/mechanic-details-form",
+  "/mechanic-details-table",
+  "/mechanic-details-form/:id"
 
 ];
 
@@ -157,6 +162,9 @@ const AppContent = () => {
           <Route path="/admin-details-table" element={<VehicleTable />} />
           <Route path="/Contactdetails" element={<ContactPage />} />
            <Route path="/change-password" element={<ChangePassword />} />
+           <Route path="/mechanic-details-form" element={<MechanicDetails />} />
+           <Route path="/mechanic-details-form/:id" element={<MechanicDetails />} />
+            <Route path="/mechanic-details-table" element={<MechanicDetailsTable />} />
         </Routes>
       </main>
       {!isAdminRoute && <Footer />}

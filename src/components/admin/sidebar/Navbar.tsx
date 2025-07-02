@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaCaretDown, FaHome, FaCarSide, FaPhoneAlt, FaImages } from "react-icons/fa";
+import { FaCaretDown, FaHome, FaCarSide, FaPhoneAlt, FaImages,FaUserCog  } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import logo from '../../../assets/vsms.jpg';
 import "./Navbar.css";
@@ -96,6 +96,10 @@ const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
               <Link className={`nav-link ${location.pathname === "/admin-gallery-table" ? "active" : ""}`} to="/admin-gallery-table" onClick={handleNavItemClick}>
                <FaImages className="admin-nav-icon text-2xl md:text-lg" />
                 {!collapsed && <span className="link_text">Gallery</span>}
+              </Link>
+                 <Link className={`nav-link ${location.pathname === "/mechanic-details-table" ? "active" : ""}`} to="/mechanic-details-table" onClick={handleNavItemClick}>
+               <FaUserCog  className="admin-nav-icon text-2xl md:text-lg" />
+                {!collapsed && <span className="link_text">Mechanic Details</span>}
               </Link>
             </li>
           </ul>
