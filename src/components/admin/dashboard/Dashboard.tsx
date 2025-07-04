@@ -8,21 +8,24 @@ const Dashboard: React.FC = () => {
   const [galleryCount, setGalleryCount] = useState<number>(0);
   const [contactCount, setContactCount] = useState<number>(0);
   const [vehicleCount, setVehicleCount] = useState<number>(0);
+  const [mechanicCount, setMechanicCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [galleryRes, contactRes, vehicleRes] = await Promise.all([
+        const [galleryRes, contactRes, vehicleRes, mechanicRes] = await Promise.all([
           axios.get(`${baseURL}/gallery`),
           axios.get(`${baseURL}/contacts`),
-          axios.get(`${baseURL}/vehicles`)
+          axios.get(`${baseURL}/vehicles`),
+          axios.get(`${baseURL}/mechanics`)
         ]);
         
         setGalleryCount(galleryRes.data.length);
         setContactCount(contactRes.data.length);
         setVehicleCount(vehicleRes.data.length);
+        setMechanicCount(mechanicRes.data.length);
       } catch (err) {
         setError("Failed to fetch dashboard data");
         console.error(err);
@@ -68,7 +71,7 @@ const Dashboard: React.FC = () => {
           ) : (
             <>
               {/* Statistic Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard 
                   title="Gallery Items" 
                   value={galleryCount} 
@@ -86,6 +89,12 @@ const Dashboard: React.FC = () => {
                   value={vehicleCount} 
                   icon="🚗" 
                   color="bg-orange-500" 
+                />
+                <StatCard 
+                  title="Mechanics" 
+                  value={mechanicCount} 
+                  icon="🧑‍🔧" 
+                  color="bg-purple-500" 
                 />
               </div>
 
