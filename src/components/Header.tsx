@@ -138,7 +138,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import logo from '../assets/vsms.jpg';
 
 const Header = () => {
-const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -147,17 +147,17 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
-    { name: 'Gallery', href: '/gallery' }, // ✅ Gallery added
+    { name: 'Gallery', href: '/gallery' },
     { name: 'Contact', href: '/contact' },
     { name: 'FAQ', href: '/faq' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
 
-   const handleDropdownSelect = (path) => {
+  const handleDropdownSelect = (path) => {
     navigate(path);
     setIsDropdownOpen(false);
-    setIsMenuOpen(false); // close mobile menu too
+    setIsMenuOpen(false);
   };
 
   return (
@@ -176,32 +176,37 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
             </div>
           </Link>
 
-          {/* Desktop navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors relative group ${
-                  isActive(item.href) ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                }`}
-              >
-                {item.name}
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform transition-transform ${
-                    isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+          {/* Desktop navigation - All items in single row */}
+          <div className="hidden md:flex items-center space-x-6">
+            {/* Main navigation links */}
+            <nav className="flex items-center space-x-6">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`px-2 py-2 text-sm font-medium transition-colors relative group ${
+                    isActive(item.href) ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
                   }`}
-                />
-              </Link>
-            ))}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform transition-transform ${
+                      isActive(item.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                    }`}
+                  />
+                </Link>
+              ))}
+            </nav>
 
             {/* Vehicle Sales Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`px-3 py-2 text-sm font-medium transition-colors flex items-center ${location.pathname.includes('/vehiclesales') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                className={`px-2 py-2 text-sm font-medium transition-colors flex items-center ${
+                  location.pathname.includes('/vehiclesales') ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                }`}
               >
-                Vehicle Sales <ChevronDown className="ml-1 w-4 h-4" />
+                Vehicle Sales <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {isDropdownOpen && (
@@ -212,27 +217,27 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                 </div>
               )}
             </div>
-          </nav>
 
-          {/* Desktop buttons */}
-          <div className="hidden md:flex space-x-4">
-            <Link to="/contact#contact-form">
-              <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">
-                Get Started Today
-              </button>
-            </Link>
-            <a
-              href="/downloads/app.apk"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-              download
-            >
-              Download App
-            </a>
+            {/* Action buttons */}
+            <div className="flex items-center space-x-3">
+              <Link to="/contact#contact-form" className="whitespace-nowrap">
+                <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Get Started
+                </button>
+              </Link>
+              <a
+                href="/downloads/app.apk"
+                className="whitespace-nowrap bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                download
+              >
+                Download App
+              </a>
+            </div>
           </div>
 
           {/* Mobile toggle */}
           <div className="md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
@@ -256,14 +261,30 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
                   {item.name}
                 </Link>
               ))}
+              {/* Mobile dropdown */}
+              <div className="px-3 py-2">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center text-sm font-medium text-gray-700 w-full"
+                >
+                  Vehicle Sales <ChevronDown className={`ml-1 w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isDropdownOpen && (
+                  <div className="pl-4 mt-2 space-y-2">
+                    <button onClick={() => handleDropdownSelect('/vehiclesales/below1000cc')} className="block w-full text-left py-1 hover:text-blue-600">Below 1000cc</button>
+                    <button onClick={() => handleDropdownSelect('/vehiclesales/below2000cc')} className="block w-full text-left py-1 hover:text-blue-600">Below 2000cc</button>
+                    <button onClick={() => handleDropdownSelect('/vehiclesales/above2000cc')} className="block w-full text-left py-1 hover:text-blue-600">Above 2000cc</button>
+                  </div>
+                )}
+              </div>
               <Link to="/contact#contact-form" className="mt-2">
-                <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md">
+                <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md transition-colors">
                   Get Started Today
                 </button>
               </Link>
               <a
                 href="/downloads/app.apk"
-                className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md text-center"
+                className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md text-center transition-colors"
                 download
               >
                 Download App
@@ -277,4 +298,3 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 };
 
 export default Header;
-

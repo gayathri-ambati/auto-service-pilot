@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'; // Ensure Font Awesome i
 const WhatApp: React.FC = () => {
   return (
     <a
-      href="https://wa.link/gpvrc8"
+      href="https://wa.link/60qsvc"
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp_float"
