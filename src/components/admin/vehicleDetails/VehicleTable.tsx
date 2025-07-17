@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import baseURL from "../../../BaseUrl";
 import ViewModal from "./ViewModal";
 import Navbar from "../sidebar/Navbar";
-import { Eye } from "react-bootstrap-icons";
+import { FaEdit, FaTrash,FaEye } from "react-icons/fa";
 
 interface Vehicle {
   id: number;
@@ -34,27 +34,54 @@ const VehicleTable: React.FC = () => {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchVehicles = async () => {
-      try {
-        const response = await fetch(`${baseURL}/vehicles`);
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to fetch vehicles");
-        setVehicles(data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchVehicles();
   }, []);
+
+  const fetchVehicles = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${baseURL}/vehicles`);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Failed to fetch vehicles");
+      setVehicles(data);
+      setError("");
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this vehicle?")) return;
+    
+    try {
+      const response = await fetch(`${baseURL}/vehicles/${id}`, {
+        method: "DELETE",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to delete vehicle");
+      }
+      
+      setSuccess("Vehicle deleted successfully");
+      fetchVehicles(); // Refresh the list
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    }
+  };
+
+  const handleEdit = (vehicle: Vehicle) => {
+    navigate("/admin-details-form", { state: { vehicle } });
+  };
 
   return (
     <div style={{ marginTop: "60px" }}>
@@ -84,6 +111,17 @@ const VehicleTable: React.FC = () => {
               Add Vehicle
             </button>
           </div>
+
+          {success && (
+            <div className="bg-green-100 text-green-700 p-3 rounded-md mb-6 text-center">
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-3 rounded-md mb-6 text-center">
+              {error}
+            </div>
+          )}
 
           {loading ? (
             <div className="text-center py-6 text-gray-500">
@@ -138,16 +176,30 @@ const VehicleTable: React.FC = () => {
                       <td className="px-4 py-3 text-sm text-gray-700">
                         {vehicle.year_of_manufacture}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
+                      <td className="px-4 py-3 text-sm text-gray-700 flex space-x-2">
                         <button
                           onClick={() => {
                             setSelectedVehicle(vehicle);
                             setShowModal(true);
                           }}
-                          className="text-blue-600 hover:text-blue-800 transition-colors"
+                          className="text-yellow-600 hover:text-yellow-800 p-1 rounded-full hover:bg-yellow-100"
                           title="View Details"
                         >
-                          <Eye size={18} />
+                          <FaEye size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleEdit(vehicle)}
+                          className="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-100"
+                            title="Edit"
+                        >
+                          <FaEdit size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(vehicle.id)}
+                        className="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-100"
+                            title="Delete"
+                        >
+                          <FaTrash size={18} />
                         </button>
                       </td>
                     </tr>
@@ -167,25 +219,6 @@ const VehicleTable: React.FC = () => {
           vehicle={selectedVehicle}
         />
       )}
-
-      <style>{`
-        @media (max-width: 768px) {
-          .transition-all {
-            margin-left: 0 !important;
-            padding: 1rem !important;
-          }
-          table th, table td {
-            padding: 8px !important;
-            font-size: 0.85rem;
-          }
-          .text-4xl {
-            font-size: 2rem !important;
-          }
-          .text-lg {
-            font-size: 1rem !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

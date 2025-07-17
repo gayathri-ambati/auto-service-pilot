@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import baseURL from "../../../BaseUrl";
 import Navbar from "../sidebar/Navbar";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 interface GalleryItem {
   id: number;
@@ -20,23 +21,48 @@ const GalleryTable: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchGallery = async () => {
-      try {
-        const response = await fetch(`${baseURL}/gallery`);
-        const data = await response.json();
-
-        if (!response.ok) throw new Error(data.error || "Failed to fetch gallery items");
-
-        setGalleryItems(data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchGallery();
   }, []);
+
+  const fetchGallery = async () => {
+    try {
+      const response = await fetch(`${baseURL}/gallery`);
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error || "Failed to fetch gallery items");
+
+      setGalleryItems(data);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this gallery item?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${baseURL}/gallery/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete gallery item");
+      }
+
+      setGalleryItems(galleryItems.filter(item => item.id !== id));
+      alert("The gallery item has been deleted.");
+    } catch (err: any) {
+      alert(`Error: ${err.message}`);
+    }
+  };
+
+  const handleEdit = (item: GalleryItem) => {
+    navigate("/admin-gallery-form", { state: { item } });
+  };
 
   return (
     <div style={{ marginTop: "60px" }}>
@@ -90,6 +116,7 @@ const GalleryTable: React.FC = () => {
                     <th className="px-4 py-3 text-left">Description</th>
                     <th className="px-4 py-3 text-left">Preview</th>
                     <th className="px-4 py-3 text-left">Uploaded On</th>
+                    <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -133,6 +160,24 @@ const GalleryTable: React.FC = () => {
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-700">
                         {new Date(item.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleEdit(item)}
+                            className="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-100"
+                            title="Edit"
+                          >
+                            <FaEdit size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="text-red-600 hover:text-red-800 p-1 rounded-full hover:bg-red-100"
+                            title="Delete"
+                          >
+                            <FaTrash size={16} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
