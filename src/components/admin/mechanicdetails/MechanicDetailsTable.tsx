@@ -11,6 +11,7 @@ interface Mechanic {
   phone: string;
   designation: string;
   workexperience: string;
+  description: string;
   profilepic: string | null;
 }
 
@@ -102,6 +103,7 @@ const MechanicDetailsTable: React.FC = () => {
                     <th className="px-4 py-3 text-left">Email</th>
                     <th className="px-4 py-3 text-left">Designation</th>
                     <th className="px-4 py-3 text-left">Experience</th>
+                    <th className="px-4 py-3 text-left">Description</th>
                     <th className="px-4 py-3 text-left">Actions</th>
                   </tr>
                 </thead>
@@ -125,6 +127,7 @@ const MechanicDetailsTable: React.FC = () => {
                       <td className="px-4 py-3 text-sm">{item.mail || "N/A"}</td>
                       <td className="px-4 py-3 text-sm">{item.designation || "N/A"}</td>
                       <td className="px-4 py-3 text-sm">{item.workexperience || "N/A"}</td>
+                      <td className="px-4 py-3 text-sm">{item.description || "N/A"}</td>
                       <td className="px-4 py-3 text-sm text-center">
   <div className="flex justify-center items-center gap-3">
    <FaEdit

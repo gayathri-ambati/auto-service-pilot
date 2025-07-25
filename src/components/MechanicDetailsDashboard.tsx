@@ -12,6 +12,7 @@ interface Mechanic {
   phone: string;
   designation: string;
   workexperience: string;
+  description: string;
   profilepic: string | null;
   skills?: string[];
   rating?: number;
@@ -22,14 +23,15 @@ const MechanicsDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<"all" | "senior" | "junior">("all");
+   const [showDescription, setShowDescription] = useState(false);
 
   const fetchMechanics = async () => {
     setLoading(true);
     setError("");
-    
+
     try {
       const response = await fetch(`${baseURL}/mechanics`);
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
@@ -43,7 +45,7 @@ const MechanicsDashboard: React.FC = () => {
         skills: mechanic.skills || getDefaultSkills(mechanic.designation),
         workexperience: mechanic.workexperience || "0" // Ensure workexperience exists
       }));
-      
+
       setMechanics(mechanicsWithDefaults);
     } catch (err: any) {
       setError(err.message || "Failed to fetch mechanics. Please try again later.");
@@ -98,7 +100,7 @@ const MechanicsDashboard: React.FC = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -107,7 +109,7 @@ const MechanicsDashboard: React.FC = () => {
             <h3 className="text-gray-500 text-sm">Total Mechanics</h3>
             <p className="text-2xl font-bold">{stats.total}</p>
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -116,7 +118,7 @@ const MechanicsDashboard: React.FC = () => {
             <h3 className="text-gray-500 text-sm">Senior Mechanics</h3>
             <p className="text-2xl font-bold">{stats.senior}</p>
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -125,7 +127,7 @@ const MechanicsDashboard: React.FC = () => {
             <h3 className="text-gray-500 text-sm">Junior Mechanics</h3>
             <p className="text-2xl font-bold">{stats.junior}</p>
           </motion.div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -231,22 +233,47 @@ const MechanicsDashboard: React.FC = () => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FaBriefcase className="text-gray-400" />
-                      <span>{mechanic.workexperience} yrs exp</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FaPhone className="text-gray-400" />
-                      <span>{mechanic.phone || "N/A"}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600 col-span-2">
-                      <FaEnvelope className="text-gray-400" />
-                      <span className="truncate">{mechanic.mail || "N/A"}</span>
-                    </div>
-                  </div>
-                </CardContent>
+              <CardContent className="text-sm text-gray-700 space-y-2">
+        <div className="grid grid-cols-2 gap-2 text-sm">
+          <div className="flex items-center gap-2 text-gray-600">
+            <FaBriefcase className="text-gray-400" />
+            <span>{mechanic.workexperience} exp</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-600">
+            <FaPhone className="text-gray-400" />
+            <span>{mechanic.phone || "N/A"}</span>
+          </div>
+          <div className="flex items-center gap-2 text-gray-600 col-span-2">
+            <FaEnvelope className="text-gray-400" />
+            <span className="truncate">{mechanic.mail || "N/A"}</span>
+          </div>
+        </div>
+
+        {/* Expandable Description Section */}
+        {mechanic.description && (
+          <div className="mt-2">
+            {!showDescription ? (
+              <button
+                onClick={() => setShowDescription(true)}
+                className="text-blue-600 hover:underline text-sm"
+              >
+                Show Description
+              </button>
+            ) : (
+              <>
+                <p className="mt-1 text-gray-700 whitespace-pre-wrap">{mechanic.description}</p>
+                <button
+                  onClick={() => setShowDescription(false)}
+                  className="text-blue-600 hover:underline text-sm mt-1"
+                >
+                  Hide Description
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </CardContent>
+
               </Card>
             </motion.div>
           ))}

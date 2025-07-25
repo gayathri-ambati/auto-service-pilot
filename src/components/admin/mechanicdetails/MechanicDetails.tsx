@@ -9,6 +9,7 @@ interface MechanicFormData {
   phone: string;
   designation: string;
   workexperience: string;
+  description: string;
   profilepic: File | null;
 }
 
@@ -26,6 +27,7 @@ const MechanicDetails: React.FC = () => {
     phone: "",
     designation: "",
     workexperience: "",
+    description: "",
     profilepic: null,
   });
 
@@ -40,6 +42,7 @@ const MechanicDetails: React.FC = () => {
             phone: data.phone || "",
             designation: data.designation || "",
             workexperience: data.workexperience || "",
+            description: data.description || "",
             profilepic: null,
           });
           if (data.profilepic) {
@@ -80,6 +83,7 @@ const MechanicDetails: React.FC = () => {
     payload.append("phone", formData.phone);
     payload.append("designation", formData.designation);
     payload.append("workexperience", formData.workexperience);
+    payload.append("description", formData.description);
     if (formData.profilepic) payload.append("profilepic", formData.profilepic);
 
     try {
@@ -183,39 +187,55 @@ const MechanicDetails: React.FC = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
+
+              {/* Work Experience */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  🏆 Work Experience
+                </label>
+                <textarea
+                  id="workexperience"
+                  
+                  value={formData.workexperience}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              {/* Profile Pic */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  🖼️ Profile Picture
+                </label>
+                <input
+                  id="profilepic"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                {previewImage && (
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    className="w-24 h-24 mt-3 rounded-full object-cover border"
+                  />
+                )}
+              </div>
             </div>
 
+            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                🏆 Work Experience
+                📝 Description
               </label>
               <textarea
-                id="workexperience"
-                rows={3}
-                value={formData.workexperience}
+                id="description"
+                rows={4}
+                value={formData.description}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                🖼️ Profile Picture
-              </label>
-              <input
-                id="profilepic"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
-              {previewImage && (
-                <img
-                  src={previewImage}
-                  alt="Preview"
-                  className="w-24 h-24 mt-3 rounded-full object-cover border"
-                />
-              )}
             </div>
 
             <div className="flex justify-center pt-4">
